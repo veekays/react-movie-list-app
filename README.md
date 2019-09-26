@@ -1,14 +1,18 @@
-# IMDB type Page for InnovAccer
-A ReactJS project.
+# React based browse movie web app
 
-## Build Setup
+## Install dependencies
 ``` bash
-# install dependencies 
 npm install
-
-# serve with hot reload at localhost:3000
+```
+# serve
+``` bash
  npm start
-
-# build for production with minification
+```
+open your browser and visit 
+``` bash
+localhost:3000
+```
+### For production build 
+``` bash
 npm run build
 ```
