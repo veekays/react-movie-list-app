@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import config from '../config'
 import MovieItem from '../components/MovieItem';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -31,7 +30,11 @@ class Root extends Component {
     }
 
     render() {
-        const { popularList, topRatedList } = this.props;
+        const { popularList, topRatedList, isFetchedTopRated, isFetchedPopular } = this.props;
+        if (!isFetchedTopRated || !isFetchedPopular)
+            return (
+                <div className="loading-box"></div>
+            );
         return (
             <div>
                 <div className="root-page-wrapper">
@@ -39,9 +42,9 @@ class Root extends Component {
                     <div className="movies">
                         <div className="movies-inner">
                             {
-                                popularList.length > 0 && popularList.splice(0,10).map(movie => (
+                                isFetchedPopular ? popularList.length > 0 && popularList.splice(0,10).map(movie => (
                                 <MovieItem key={movie.id} movie={movie} />
-                            ))}
+                            )) : null}
                         </div>
                     </div>
                     <Link to={'/allmovies'}>
@@ -52,9 +55,9 @@ class Root extends Component {
                     <h3>Top Rated Movies</h3>
                     <div className="movies">
                         <div className="movies-inner">
-                            {topRatedList.length > 0 && topRatedList.splice(0,10).map(movie => (
+                            { isFetchedTopRated ? topRatedList.length > 0 && topRatedList.splice(0,10).map(movie => (
                                 <MovieItem key={movie.id} movie={movie} />
-                            ))}
+                            )) : null}
                         </div>
                     </div>
                     <Link to={'/allmovies'}>
@@ -78,7 +81,9 @@ const mapStateToProps = (state) => {
     return {
         filter: state.movies.filter,
         popularList : state.popular.data,
-        topRatedList : state.topRated.data
+        isFetchedPopular : state.popular.isFetched,
+        topRatedList : state.topRated.data,
+        isFetchedTopRated : state.topRated.isFetched
     };
 };
 export default (connect(mapStateToProps, mapDispatchToProps)(Root));

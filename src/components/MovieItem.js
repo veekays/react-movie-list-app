@@ -30,6 +30,8 @@ class MovieItem extends Component {
 				watch_list: initStateWithList
 			})
 		}
+		const {LoadGenres} = this.props;
+		LoadGenres();
 	}
 
 	addToWatchList = () => {
