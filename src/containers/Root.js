@@ -15,7 +15,6 @@ class Root extends Component {
     constructor() {
         super();
         this.state = {
-            popularList: [],
             topRatedList: [],
         }
     }
