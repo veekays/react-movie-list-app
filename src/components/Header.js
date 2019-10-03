@@ -3,8 +3,6 @@ import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import config from '../config';
-import { ChangeLang } from '../actions/system';
 import { LoadSearchMovies } from '../actions/movies';
 
 class Header extends Component {
@@ -38,9 +36,6 @@ class Header extends Component {
 	}
 
 	render() {
-		const { searchText } = this.props;
-		const languages = config.API_LANGUAGES;
-
 		return (
 			<header>
 				<div className="container">

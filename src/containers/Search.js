@@ -27,8 +27,6 @@ class Search extends Component {
 	}
 
 	render(){
-		const { t } = this.props;
-
 		return (
 			<div className="movies">
 				<MoviesList/>
