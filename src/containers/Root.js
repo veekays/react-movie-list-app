@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { ChangeFilter } from '../actions/movies';
+import { LoadPopularMovie } from '../actions/popular';
 
 
 class Root extends Component {
@@ -20,12 +21,15 @@ class Root extends Component {
     }
 
     componentWillMount() {
+        const {LoadPopularMovie} = this.props;
+        LoadPopularMovie();
         let url = `https://api.themoviedb.org/3/movie/`
-        fetch(`${url}popular?page=1&api_key=${config.API_KEY}`)
-            .then(response => response.json())
-            .then(resData => {
-                this.setState({ popularList: resData.results.splice(0, 10) });
-            })
+        // fetch(`${url}popular?page=1&api_key=${config.API_KEY}`)
+        //     .then(response => response.json())
+        //     .then(resData => {
+        //         this.setState({ popularList: resData.results.splice(0, 10) });
+        //     })
+
         fetch(`${url}top_rated?page=1&api_key=${config.API_KEY}`)
             .then(response => response.json())
             .then(resData => {
@@ -38,14 +42,16 @@ class Root extends Component {
     }
 
     render() {
-        const { popularList, topRatedList } = this.state
+        const { topRatedList } = this.state;
+        const { popularList } = this.props;
         return (
             <div>
                 <div className="root-page-wrapper">
                     <h3>Popular Movies</h3>
                     <div className="movies">
                         <div className="movies-inner">
-                            {popularList.length > 0 && popularList.map(movie => (
+                            {
+                                popularList.length > 0 && popularList.splice(0,10).map(movie => (
                                 <MovieItem key={movie.id} movie={movie} />
                             ))}
                         </div>
@@ -74,13 +80,15 @@ class Root extends Component {
 }
 const mapDispatchToProps = (dispatch) => bindActionCreators(
     {
-        ChangeFilter
+        ChangeFilter,
+        LoadPopularMovie
     },
     dispatch
 );
 const mapStateToProps = (state) => {
     return {
-        filter: state.movies.filter
+        filter: state.movies.filter,
+        popularList : state.popular.data
     };
 };
 export default (connect(mapStateToProps, mapDispatchToProps)(Root));
